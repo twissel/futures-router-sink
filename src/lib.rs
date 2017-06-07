@@ -1,3 +1,36 @@
+//! Router Sink
+//!
+//! # Example
+//!
+//! ```no_run
+//! # extern crate futures;
+//! # extern crate futures_router_sink;
+//! # fn main() {
+//! use futures::{stream, Stream};
+//! use futures_router_sink::{Route, RouterSink, RouterSinkError};
+//!
+//! let even = Vec::<usize>::new();
+//! let odd = Vec::<usize>::new();
+//!
+//! let router = RouterSink::new(even, odd);
+//!
+//! let input = (0..10).map(|x| {
+//!     if x % 2 == 0 {
+//!         Route::Left(x)
+//!     } else {
+//!         Route::Right(x)
+//!     }
+//! })
+//! .map(Ok::<_, ()>)
+//! .collect::<Vec<_>>();
+//!
+//! let stream = stream::iter(input);
+//! stream
+//!     .map_err(|_| RouterSinkError::Left(()))
+//!     .forward(router);
+//! # }
+//! ```
+
 extern crate futures;
 
 use futures::{Async, AsyncSink, Poll, Sink, StartSend};
@@ -52,6 +85,22 @@ fn start_send<S, F, E, G, I>(sink: &mut S, item: S::SinkItem, f: F, g: G) -> Sta
 
 impl<A, B> RouterSink<A, B> {
     /// Create a new RouterrSink for the two given sinks
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use futures_router_sink::RouterSink;
+    ///
+    /// let left = Vec::<usize>::new();
+    /// let right = Vec::<usize>::new();
+    ///
+    /// let router = RouterSink::new(left, right);
+    /// ```
+    ///
+    /// # Arguments
+    ///
+    /// - `left_sink`: The sink chosen by the router if an item is tagged as `Left`
+    /// - `right_sink`: The sink chosen by the router if an item is tagged as `Right`
     pub fn new(left_sink: A, right_sink: B) -> RouterSink<A, B> {
         RouterSink {
             left_sink,
