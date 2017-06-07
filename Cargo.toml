@@ -2,6 +2,14 @@
 name = "futures-router-sink"
 version = "0.1.0"
 authors = ["Simon Wollwage <mail.wollwage@google.com>"]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/Kintaro/futures-router-sink"
+documentation = "https://docs.rs/futures-router-sink"
+travis-ci = { repository = "Kintaro/futures-router-sink" }
+description = """
+A futures-rs sink capable of routing between two other sinks
+"""
 
 [dependencies]
 futures = "0.1"
