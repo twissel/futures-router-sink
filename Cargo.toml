@@ -1,0 +1,7 @@
+[package]
+name = "futures-router-sink"
+version = "0.1.0"
+authors = ["Simon Wollwage <mail.wollwage@google.com>"]
+
+[dependencies]
+futures = "0.1"
