@@ -2,6 +2,8 @@
 
 This library allows to combine two sinks into one.
 
+[![Build Status](https://travis-ci.org/Kintaro/futures-router-sink.svg?branch=master)](https://travis-ci.org/Kintaro/futures-router-sink)
+
 ## Usage 
 
 Add this to your `Cargo.toml`:
