@@ -2,7 +2,9 @@ use std::fmt::{Debug, Display, Error, Formatter};
 
 /// Encapsulate errors from both Sinks
 pub enum RouterSinkError<A, B> {
+    /// An error occured in the left route sink
     Left(A),
+    /// An error occured in the right route sink
     Right(B),
 }
 

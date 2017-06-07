@@ -9,11 +9,15 @@
 //! use futures::{stream, Stream};
 //! use futures_router_sink::{Route, RouterSink, RouterSinkError};
 //!
+//! // Create the two sinks that we are going to route into
 //! let even = Vec::<usize>::new();
 //! let odd = Vec::<usize>::new();
 //!
+//! // Create the router sink
 //! let router = RouterSink::new(even, odd);
 //!
+//! // Some made up data where we route even numbers
+//! // to the left and odd numbers to the right sink
 //! let input = (0..10)
 //!     .map(|x| {
 //!         if x % 2 == 0 {

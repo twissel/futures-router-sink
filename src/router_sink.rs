@@ -3,13 +3,17 @@ use futures::{Async, AsyncSink, Poll, Sink, StartSend};
 
 /// Marker to decide which route the item has to take
 pub enum Route<A, B> {
+    /// Marker to indicate that this item is to be routed left
     Left(A),
+    /// Marker to indicate that this item is to be routed right
     Right(B),
 }
 
 /// A sink capable of routing incoming items to one of two sinks
 pub struct RouterSink<A, B> {
+    /// The sink for the left route
     left_sink: A,
+    /// The sink for the right route
     right_sink: B,
 }
 
@@ -68,15 +72,78 @@ impl<A, B> RouterSink<A, B> {
         }
     }
 
+    /// Access the inner sink for the left route
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use futures_router_sink::RouterSink;
+    /// # let left = Vec::<usize>::new();
+    /// # let right = Vec::<usize>::new();
+    /// let router = RouterSink::new(left, right);
+    /// let left = router.left();
+    /// ```
+    ///
+    /// # Return value
+    ///
+    /// A reference to the inner left route sink
     pub fn left(&self) -> &A {
         &self.left_sink
     }
+
+    /// Access the inner sink for the right route
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use futures_router_sink::RouterSink;
+    /// # let left = Vec::<usize>::new();
+    /// # let right = Vec::<usize>::new();
+    /// let router = RouterSink::new(left, right);
+    /// let right = router.right();
+    /// ```
+    ///
+    /// # Return value
+    ///
+    /// A reference to the inner right route sink
     pub fn right(&self) -> &B {
         &self.right_sink
     }
+
+    /// Mutable access the inner sink for the left route
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use futures_router_sink::RouterSink;
+    /// # let left = Vec::<usize>::new();
+    /// # let right = Vec::<usize>::new();
+    /// let router = RouterSink::new(left, right);
+    /// let right = router.left_mut();
+    /// ```
+    ///
+    /// # Return value
+    ///
+    /// A mutable reference to the inner left route sink
     pub fn left_mut(&mut self) -> &mut A {
         &mut self.left_sink
     }
+
+    /// Mutable access the inner sink for the right route
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use futures_router_sink::RouterSink;
+    /// # let left = Vec::<usize>::new();
+    /// # let right = Vec::<usize>::new();
+    /// let router = RouterSink::new(left, right);
+    /// let right = router.left_mut();
+    /// ```
+    ///
+    /// # Return value
+    ///
+    /// A mutable reference to the inner right route sink
     pub fn right_mut(&mut self) -> &mut B {
         &mut self.right_sink
     }
