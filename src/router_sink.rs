@@ -180,3 +180,13 @@ impl<A, B> Sink for RouterSink<A, B>
         }
     }
 }
+
+
+impl<A,B> Clone for RouterSink<A,B> 
+where A: Clone,
+      B: Clone
+{
+    fn clone(&self) -> Self {
+        RouterSink::new(self.left_sink.clone(), self.right_sink.clone())
+    }
+}
